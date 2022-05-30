@@ -1,12 +1,13 @@
 {
   "name": "task",
   "version": "1.0.0",
-  "description": "This README would normally document whatever steps are necessary to get your application up and running.",
+  "description": "",
   "main": "src/app.ts",
   "type": "commonjs",
   "scripts": {
     "start": "node src/bin/server.ts",
-    "dev": "nodemon src/bin/server.ts"
+    "dev": "nodemon src/bin/server.ts",
+    "build": "tsc"
   },
   "repository": {
     "type": "git",

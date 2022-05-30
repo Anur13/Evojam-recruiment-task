@@ -1,7 +1,7 @@
 import { app } from "../app";
 import mongoose from "mongoose";
 
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 3000;
 const dbURL = process.env.MONGODB_URL;
 const options = {
   useNewUrlParser: true,
