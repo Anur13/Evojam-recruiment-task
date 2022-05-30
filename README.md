@@ -1,29 +1,40 @@
-# README #
+# Node.js task
 
-This README would normally document whatever steps are necessary to get your application up and running.
+# Technology stack
 
-### What is this repository for? ###
+- Serverside: Node.js, express, typeScript
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+- DB: mongoDb
 
-### How do I get set up? ###
+- Containerization: docker
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+- Tests: jest, chai
 
-### Contribution guidelines ###
+# Steps to run locally:
+- Clone the repository
+```
+git clone <repo url>
+```
+- development build run
+````
+docker-compose -f docker-compose.yml -f docker-compose.dev.yml up 
+````
+- add env variables to docker-compose.prod.yml
+- production build run
+````
+docker-compose -f docker-compose.yml -f docker-compose.prod.yml up 
+````
+- run tests 
+````
+npm run test
+````
+- shut down
+````
+docker-compose down
+````
 
-* Writing tests
-* Code review
-* Other guidelines
+# Api endpoints:
+After running the server go to http://localhost:3000/api-docs/#/ to see full endpoints documentation.
 
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
+# Api healthcheck:
+After running the server go to http://localhost:3000/health-check to check the service.

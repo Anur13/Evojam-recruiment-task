@@ -28,7 +28,6 @@ describe("app endpoints", () => {
     name: "Bob",
     email: "tes13@gmail.com",
   };
-  afterEach(async () => {});
 
   it("should return created invite", done => {
     chai

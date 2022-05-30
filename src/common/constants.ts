@@ -3,7 +3,12 @@ export const constants = {
     invite: {
       main: "/invite",
       create: "/create",
-      list: "/listAll",
+      list: {
+        main: "/list",
+        confirmed: "/list/confirmed",
+        rejected: "/list/rejected",
+        bySender: "/list/by-sender",
+      },
       confirm: "/confirm",
       decline: "/decline",
     },

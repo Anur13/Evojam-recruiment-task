@@ -43,4 +43,22 @@ export const inviteController = {
       next(e);
     }
   },
+  listConfirmed: async function (req: Request, res: Response, next: NextFunction) {
+    const invites = await inviteService.listConfirmed();
+    res.status(200).send(invites);
+  },
+  listRejected: async function (req: Request, res: Response, next: NextFunction) {
+    const invites = await inviteService.listRejected();
+    res.status(200).send(invites);
+  },
+  listBySender: async function (req: Request, res: Response, next: NextFunction) {
+    const { sender } = req.query;
+    if (!sender) return next(inviteResponseError.missingSender());
+    try {
+      const invites = await inviteService.listBySender(sender.toString());
+      res.status(200).send(invites);
+    } catch (e) {
+      next(e);
+    }
+  },
 };

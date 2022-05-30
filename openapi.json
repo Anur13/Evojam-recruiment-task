@@ -1,0 +1,257 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Evojam task",
+    "description": "API documentation for task",
+    "version": ""
+  },
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "tags": [
+    {
+      "name": "Invite",
+      "description": "Invite endpoints"
+    }
+  ],
+  "paths": {
+    "/invite/create": {
+      "post": {
+        "tags": ["Invite"],
+        "summary": "Create invite. Sends email notification.",
+        "requestBody": {
+          "description": "User's info object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/inviteCreateReq"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inviteCreateRes"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)"
+          }
+        }
+      }
+    },
+    "/invite/list": {
+      "get": {
+        "tags": ["Invite"],
+        "summary": "Get all invites",
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/getInvitesRes"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)"
+          }
+        }
+      }
+    },
+    "/invite/list/confirmed": {
+      "get": {
+        "tags": ["Invite"],
+        "summary": "Get all confirmed invites",
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/getInvitesRes"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)"
+          }
+        }
+      }
+    },
+    "/invite/list/rejected": {
+      "get": {
+        "tags": ["Invite"],
+        "summary": "Get all rejected invites",
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/getInvitesRes"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)"
+          }
+        }
+      }
+    },
+    "/invite/list/by-sender?sender={sender}": {
+      "get": {
+        "tags": ["Invite"],
+        "summary": "Get all invites from one sender",
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/getInvitesRes"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Sender is not provided"
+          }
+        }
+      }
+    },
+    "/invite/confirm?id={inviteId}": {
+      "get": {
+        "tags": ["Invite"],
+        "summary": "Confirm an invitation. Sends email notification.",
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "400": {
+            "description": "Sender is not provided"
+          },
+          "404":{
+            "description": "Invite was not found"
+          }
+        }
+      }
+    },
+    "/invite/reject?id={inviteId}": {
+      "get": {
+        "tags": ["Invite"],
+        "summary": "Confirm an invitation. Sends email notification.",
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "400": {
+            "description": "Sender is not provided"
+          },
+          "404":{
+            "description": "Invite was not found"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "inviteCreateReq": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Invitee's name",
+            "example": "Bob"
+          },
+          "email": {
+            "type": "string",
+            "description": "Invitee's email",
+            "example": "example@gmail.com"
+          }
+        }
+      },
+      "inviteCreateRes": {
+        "type": "object",
+        "properties": {
+          "Invitee Name": {
+            "type": "string",
+            "description": "Invitee's name",
+            "example": "Bob"
+          },
+          "Invitee Email": {
+            "type": "string",
+            "description": "Invitee's email",
+            "example": "example@gmail.com"
+          },
+          "Created": {
+            "type": "date",
+            "description": "Date of creation",
+            "example": "2022-05-30T15:28:01.949+00:00"
+          },
+          "Created By": {
+            "type": "string",
+            "description": "Creator",
+            "example": "john@gmail.com"
+          },
+          "Status": {
+            "type": "string",
+            "description": "Status of Invitation",
+            "example": "Confirmed"
+          },
+          "_id": {
+            "type": "string"
+          }
+        }
+      },
+      "getInvitesRes": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "Invitee Name": {
+              "type": "string",
+              "description": "Invitee's name",
+              "example": "Bob"
+            },
+            "Invitee Email": {
+              "type": "string",
+              "description": "Invitee's email",
+              "example": "example@gmail.com"
+            },
+            "Created": {
+              "type": "date",
+              "description": "Date of creation",
+              "example": "2022-05-30T15:28:01.949+00:00"
+            },
+            "Created By": {
+              "type": "string",
+              "description": "Creator",
+              "example": "john@gmail.com"
+            },
+            "Status": {
+              "type": "string",
+              "description": "Status of Invitation",
+              "example": "Confirmed"
+            },
+            "_id": {
+              "type": "string"
+            }
+          }
+        }
+      }
+
+    }
+  }
+}

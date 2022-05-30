@@ -28,8 +28,6 @@ describe("invite service tests", () => {
     await Invite.deleteMany();
   });
 
-  afterEach(async () => {});
-
   it("should create new Invite and save it to db. List all should return two", async () => {
     await inviteService.create(user.name, user.email);
 
@@ -57,5 +55,44 @@ describe("invite service tests", () => {
     await inviteService.changeStatus(invite._id, InviteStatusI.rejected);
     invite = await Invite.findOne({ inviteeEmail: user.email });
     expect(invite.status).toEqual(InviteStatusI.rejected);
+  });
+
+  it("should return only confirmed, rejected or by user", async () => {
+    let user = {
+      inviteeName: "Bob",
+      inviteeEmail: "something@gmail.com",
+      created: new Date(),
+      createdBy: "gava@gmail.com",
+      status: "Confirmed",
+    };
+    await Invite.create(user);
+
+    user = {
+      inviteeName: "Bob",
+      inviteeEmail: "something@gmail.com",
+      created: new Date(),
+      createdBy: "gava@gmail.com",
+      status: "Rejected",
+    };
+    await Invite.create(user);
+
+    user = {
+      inviteeName: "Bob",
+      inviteeEmail: "something@gmail.com",
+      created: new Date(),
+      createdBy: "mana@gmail.com",
+      status: "Rejected",
+    };
+    await Invite.create(user);
+
+    const confirmed = await inviteService.listConfirmed();
+
+    expect(confirmed.length).toEqual(1);
+
+    const rejected = await inviteService.listRejected();
+    expect(rejected.length).toEqual(2);
+
+    const listByMana = await inviteService.listBySender(user.createdBy);
+    expect(listByMana.length).toEqual(1);
   });
 });
