@@ -9,7 +9,8 @@ const options = {
 };
 
 async function startServer() {
-  // await mongoose.connect(dbURL, options);
+  // @ts-ignore
+  await mongoose.connect(dbURL, options);
 
   await app.listen(PORT).on("error", () => {
     throw new Error("Server crashed");

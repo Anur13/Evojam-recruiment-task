@@ -3,7 +3,7 @@ export const constants = {
     invite: {
       main: "/invite",
       create: "/create",
-      list: "/list",
+      list: "/listAll",
       confirm: "/confirm",
       decline: "/decline",
     },
