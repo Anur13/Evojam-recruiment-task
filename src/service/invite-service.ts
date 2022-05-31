@@ -31,13 +31,13 @@ export const inviteService = {
     await inviteDao.changeStatus(id, invite);
     await statusChangeNotification(invite.inviteeEmail, status);
   },
-  listConfirmed: async function () {
+  listConfirmed: async function (): Promise<InviteI[]> {
     return await inviteDao.findConfirmed();
   },
-  listRejected: async function () {
+  listRejected: async function (): Promise<InviteI[]> {
     return await inviteDao.findRejected();
   },
-  listBySender: async function (sender: string) {
+  listBySender: async function (sender: string): Promise<InviteI[]> {
     return await inviteDao.findBySender(sender);
   },
 };

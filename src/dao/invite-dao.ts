@@ -6,23 +6,23 @@ export const inviteDao = {
   create: async function (invite: InviteI) {
     return Invite.create(invite);
   },
-  listAll: async function () {
+  listAll: async function (): Promise<InviteI[]> {
     return Invite.find();
   },
-  changeStatus: async function (id: string, invite: InviteI) {
+  changeStatus: async function (id: string, invite: InviteI): Promise<InviteI | null> {
     return Invite.findOneAndUpdate({ _id: id }, invite, { new: true });
   },
 
-  findInvite: async function (id: string) {
+  findInvite: async function (id: string): Promise<InviteI | null> {
     return Invite.findOne({ _id: id });
   },
-  findConfirmed: async function () {
+  findConfirmed: async function (): Promise<InviteI[]> {
     return Invite.find({ status: InviteStatusI.confirmed });
   },
-  findRejected: async function () {
+  findRejected: async function (): Promise<InviteI[]> {
     return Invite.find({ status: InviteStatusI.rejected });
   },
-  findBySender: async function (createdBy: string) {
+  findBySender: async function (createdBy: string): Promise<InviteI[]> {
     return Invite.find({ createdBy });
   },
 };
