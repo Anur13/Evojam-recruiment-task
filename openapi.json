@@ -67,7 +67,7 @@
         }
       }
     },
-    "/invite/list/confirmed": {
+    "/invite/list?type=confirmed": {
       "get": {
         "tags": ["Invite"],
         "summary": "Get all confirmed invites",
@@ -88,7 +88,7 @@
         }
       }
     },
-    "/invite/list/rejected": {
+    "/invite/list?type=rejected": {
       "get": {
         "tags": ["Invite"],
         "summary": "Get all rejected invites",
@@ -109,7 +109,7 @@
         }
       }
     },
-    "/invite/list/by-sender?sender={sender}": {
+    "/invite/list?type=by_sender&sender={sender}": {
       "get": {
         "tags": ["Invite"],
         "summary": "Get all invites from one sender",

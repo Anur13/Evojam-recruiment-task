@@ -1,20 +1,16 @@
 import chai, { expect } from "chai";
 import chaiHttp from "chai-http";
-import { app } from "../app";
 import mongoose from "mongoose";
+import { app } from "../app";
 
-const dbURL = process.env.MONGODB_URL;
+import envVars from "../bin/config";
 
 chai.use(chaiHttp);
 
 describe("app endpoints", () => {
   beforeAll(async () => {
     try {
-      // @ts-ignore
-      mongoose.connect(dbURL, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-      });
+      await mongoose.connect(envVars.MONGODB_URL);
     } catch (e) {
       console.log(e);
     }

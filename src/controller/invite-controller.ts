@@ -6,16 +6,14 @@ import { inviteResponseError } from "../error/inviteResponseError";
 import { InviteStatusI } from "../common/iniviteStatus";
 
 export const inviteController = {
-  listAll: async function (req: Request, res: Response, next: NextFunction) {
-    const invites = await inviteService.listAll();
-    res.status(200).send(invites);
-  },
-
   create: async function (req: Request, res: Response, next: NextFunction) {
-    const { value, error } = inviteValidation.create.validate(req.body);
+    const {
+      value: { name, email },
+      error,
+    } = inviteValidation.create.validate(req.body);
     if (error) return next(reqBodyValidationError.inviteError(error.message));
     try {
-      const invite = await inviteService.create(value.name, value.email);
+      const invite = await inviteService.create(name, email);
       res.status(201).send(invite);
     } catch (e) {
       next(e);
@@ -43,22 +41,23 @@ export const inviteController = {
       next(e);
     }
   },
-  listConfirmed: async function (req: Request, res: Response, next: NextFunction) {
-    const invites = await inviteService.listConfirmed();
-    res.status(200).send(invites);
-  },
-  listRejected: async function (req: Request, res: Response, next: NextFunction) {
-    const invites = await inviteService.listRejected();
-    res.status(200).send(invites);
-  },
-  listBySender: async function (req: Request, res: Response, next: NextFunction) {
-    const { sender } = req.query;
-    if (!sender) return next(inviteResponseError.missingSender());
-    try {
-      const invites = await inviteService.listBySender(sender.toString());
-      res.status(200).send(invites);
-    } catch (e) {
-      next(e);
+  list: async function (req: Request, res: Response, next: NextFunction) {
+    const { type, sender } = req.query;
+    let invites;
+    switch (type) {
+      case "confirmed":
+        invites = await inviteService.listConfirmed();
+        break;
+      case "rejected":
+        invites = await inviteService.listRejected();
+        break;
+      case "by_sender":
+        if (!sender) return next(inviteResponseError.missingSender());
+        invites = await inviteService.listBySender(sender.toString());
+        break;
+      default:
+        invites = await inviteService.listAll();
     }
+    res.status(200).send(invites);
   },
 };

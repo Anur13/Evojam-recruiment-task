@@ -6,6 +6,7 @@ import { constants } from "./common/constants";
 import { inviteRouter } from "./router/invite-router";
 import APIError from "./error/baseError";
 import swaggerUI from "swagger-ui-express";
+import swaggerDoc from "../openapi.json";
 
 const app: Express = express();
 app.use(cors());
@@ -24,8 +25,6 @@ app.get("/health-check", (req: Request, res: Response) => {
   res.status(200).send(data);
 });
 try {
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const swaggerDoc = require("../openapi.json");
   app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDoc));
 } catch (e) {
   console.log(e);

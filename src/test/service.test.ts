@@ -3,18 +3,14 @@ import mongoose from "mongoose";
 import { inviteService } from "../service/invite-service";
 import { Invite } from "../model/invite-model";
 import { InviteStatusI } from "../common/iniviteStatus";
+import envVars from "../bin/config";
 
 describe("invite service tests", () => {
   const user = { name: "Bob", email: "akrupskyi13@gmail.com" };
-  const dbURL = process.env.MONGODB_URL;
 
   beforeAll(async () => {
     try {
-      // @ts-ignore
-      mongoose.connect(dbURL, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-      });
+      await mongoose.connect(envVars.MONGODB_URL);
     } catch (e) {
       console.log(e);
     }

@@ -1,23 +1,21 @@
 import { inviteDao } from "../dao/invite-dao";
 import { InviteI } from "../type/inviteI";
-import { internalError } from "../error/internal-error";
+import envVars from "../bin/config";
 import { sendCreatedInvite, statusChangeNotification } from "../../util/emailer";
 import { inviteError } from "../error/inviteError";
 import { InviteStatusI } from "../common/iniviteStatus";
 
 export const inviteService = {
   create: async function (name: string, email: string): Promise<InviteI> {
-    const userEmail = process.env.USER_EMAIL;
-
-    if (!userEmail) throw internalError.inviteError();
     const invite: InviteI = {
       inviteeName: name,
       inviteeEmail: email,
       created: new Date(),
-      createdBy: userEmail,
+      createdBy: envVars.USER_EMAIL,
       status: InviteStatusI.notResolved,
     };
     const createdInvite = await inviteDao.create(invite);
+
     await sendCreatedInvite(email, createdInvite._id);
     return createdInvite;
   },
