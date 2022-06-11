@@ -1,5 +1,3 @@
-# Node.js task
-
 # Technology stack
 
 - Serverside: Node.js, express, typeScript
