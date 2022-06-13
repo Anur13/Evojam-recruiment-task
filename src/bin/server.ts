@@ -6,6 +6,7 @@ async function startServer() {
   try {
     await mongoose.connect(envVars.MONGODB_URL);
   } catch (e) {
+    console.log();
     console.log(e);
   }
 
