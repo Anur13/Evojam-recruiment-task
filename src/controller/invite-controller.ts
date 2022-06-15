@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from "express";
+import { NextFunction, Request, Response } from "express";
 import { inviteValidation } from "../model/schema/invite-schema";
 import { reqBodyValidationError } from "../error/validation-error";
 import { inviteService } from "../service/invite-service";
@@ -6,7 +6,7 @@ import { inviteResponseError } from "../error/inviteResponseError";
 import { InviteStatusI } from "../common/iniviteStatus";
 
 export const inviteController = {
-  create: async function (req: Request, res: Response, next: NextFunction) {
+  create: async function(req: Request, res: Response, next: NextFunction) {
     const {
       value: { name, email },
       error,
@@ -19,7 +19,7 @@ export const inviteController = {
       next(e);
     }
   },
-  confirm: async function (req: Request, res: Response, next: NextFunction) {
+  confirm: async function(req: Request, res: Response, next: NextFunction) {
     const { id } = req.query;
     if (!id)
       return next(inviteResponseError.statusChangeError("Invite id was not provided"));
@@ -30,26 +30,26 @@ export const inviteController = {
       next(e);
     }
   },
-  decline: async function (req: Request, res: Response, next: NextFunction) {
+  decline: async function(req: Request, res: Response, next: NextFunction) {
     const { id } = req.query;
     if (!id)
       return next(inviteResponseError.statusChangeError("Invite id was not provided"));
     try {
-      await inviteService.changeStatus(id.toString(), InviteStatusI.rejected);
-      res.status(200).send("Your invitation was rejected");
+      await inviteService.changeStatus(id.toString(), InviteStatusI.declined);
+      res.status(200).send("Your invitation was declined");
     } catch (e) {
       next(e);
     }
   },
-  list: async function (req: Request, res: Response, next: NextFunction) {
+  list: async function(req: Request, res: Response, next: NextFunction) {
     const { type, sender } = req.query;
     let invites;
     switch (type) {
       case "confirmed":
-        invites = await inviteService.listConfirmed();
+        invites = await inviteService.listFiltered(InviteStatusI.confirmed);
         break;
-      case "rejected":
-        invites = await inviteService.listRejected();
+      case "declined":
+        invites = await inviteService.listFiltered(InviteStatusI.declined);
         break;
       case "by_sender":
         if (!sender) return next(inviteResponseError.missingSender());

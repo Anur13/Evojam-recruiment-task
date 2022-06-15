@@ -1,5 +1,5 @@
 export enum InviteStatusI {
   confirmed = "Confirmed",
-  rejected = "Rejected",
+  declined = "Rejected",
   notResolved = "Not resolved",
 }

@@ -48,9 +48,9 @@ describe("invite service tests", () => {
 
     expect(invite.status).toEqual(InviteStatusI.confirmed);
 
-    await inviteService.changeStatus(invite._id, InviteStatusI.rejected);
+    await inviteService.changeStatus(invite._id, InviteStatusI.declined);
     invite = await Invite.findOne({ inviteeEmail: user.email });
-    expect(invite.status).toEqual(InviteStatusI.rejected);
+    expect(invite.status).toEqual(InviteStatusI.declined);
   });
 
   it("should return only confirmed, rejected or by user", async () => {

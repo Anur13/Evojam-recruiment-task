@@ -1,6 +1,12 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Document, Schema, Model } from "mongoose";
+import { InviteI } from "../type/inviteI";
 
-const inviteSchema = new mongoose.Schema(
+
+export interface InviteModelI extends InviteI, Document {
+  changeStatus(newStatus: string): void;
+}
+
+const inviteSchema = new Schema(
   {
     inviteeName: {
       type: String,
@@ -26,4 +32,9 @@ const inviteSchema = new mongoose.Schema(
   { versionKey: false },
 );
 
-export const Invite = mongoose.model("Invite", inviteSchema);
+inviteSchema.methods.changeStatus = function(newStatus: string) {
+  this.status = newStatus;
+  this.save();
+};
+
+export const Invite: Model<InviteModelI> = mongoose.model<InviteModelI>("Invite", inviteSchema);
